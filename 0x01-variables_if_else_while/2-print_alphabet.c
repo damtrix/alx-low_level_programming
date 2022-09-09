@@ -1,9 +1,11 @@
 #include <stdio.h>
 
 /**
- * main - print lowercase a-z without using printf
+ * main - Entry point
  *
- * Return - 0
+ * Description: print all aplhabet letters
+ *
+ * Return: Always 0 (Success)
  */
 
 int main(void)
@@ -14,5 +16,6 @@ int main(void)
 	{
 		putchar(ch);
 	}
+	putchar('\n');
 	return (0);
 }
