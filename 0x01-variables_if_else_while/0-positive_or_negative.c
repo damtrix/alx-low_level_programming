@@ -1,8 +1,13 @@
 #include <stdlib.h>
 #include <time.h>
-/* more headers goes there */
+#include <stdio.h>
 
-/* betty style doc for function main goes there */
+/**
+ * main - Test to indicate postive and negative
+ *        interger and zero value
+ * Return: 0
+ */
+
 int main(void)
 {
 	int n;
@@ -14,7 +19,7 @@ int main(void)
 	{
 		printf("%d is positive\n", n);
 	}
-	else if (n ==0)
+	else if (n == 0)
 	{
 		printf("%d is zero\n", n);
 	}
