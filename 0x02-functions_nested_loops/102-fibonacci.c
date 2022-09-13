@@ -3,8 +3,8 @@
 /**
  * main - Entry block
  *
- * Description: Write a program
- *              that prints the first 50 Fibonacci numbers, starting with 1 and 2
+ * Description: Write a program that prints
+ *              the first 50 Fibonacci numbers, starting with 1 and 2
  *
  * Return: 0
  */
