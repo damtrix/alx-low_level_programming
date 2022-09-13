@@ -10,21 +10,17 @@
 
 void print_to_98(int n)
 {
-	while (n <= 98)
+	int count;
+
+	if (n > 98)
 	{
-		if (n <= 9)
-			putchar(n + '0');
-		else
-		{
-			putchar((n / 10) + '0');
-			putchar((n % 10) + '0');
-		}
-		if (n != 98)
-		{
-			putchar(',');
-			putchar(' ');
-		}
-		n++;
+		for (count = n; count > 98; count--)
+			printf("%d, ", count);
 	}
-	putchar('\n');
+	else
+	{
+		for (count = n; count < 98; count++)
+			printf("%d, ", count);
+	}
+	printf("98\n");
 }
