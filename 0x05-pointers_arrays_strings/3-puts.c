@@ -10,13 +10,7 @@
 
 void _puts(char *str)
 {
-	char k;
-	int c;
-
-	c = 0;
-	while (str[c])
-	{
-		write(1, &str[c], 1);
-		c++;
-	}
+	while (*str)
+		_putchar(*str++);
+	_putchar('\n');
 }
