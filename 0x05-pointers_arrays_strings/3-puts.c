@@ -10,13 +10,13 @@
 
 void _puts(char *str)
 {
+	char k;
 	int c;
 
 	c = 0;
 	while (str[c])
 	{
-		_putchar(str[c]);
+		write(1, &str[c], 1);
 		c++;
 	}
-	_putchar('\n');
 }
