@@ -14,9 +14,9 @@ char *rot13(char *s)
 	char r[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	char e[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
 
-	for (c = 0; s[c] != '\n'; c++)
+	for (c = 0; s[c] != '\0'; c++)
 	{
-		for (k = 0; r[k] != '\n'; k++)
+		for (k = 0; r[k] != '\0'; k++)
 		{
 			if (s[c] == r[k])
 			{
