@@ -9,7 +9,7 @@
  *
  * @n: Check the input
  *
- * Return: 0
+ * Return: s
  */
 
 char *_memset(char *s, char b, unsigned int n)
@@ -20,4 +20,6 @@ char *_memset(char *s, char b, unsigned int n)
 	{
 		s[i] = b;
 	}
+
+	return (s);
 }
