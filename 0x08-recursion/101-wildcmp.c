@@ -1,25 +1,12 @@
 #include "main.h"
 
 /**
- * wildcmp - check the code for Holberton School students.
- *
- * @s1: string
- *
- * @s2: string
- * Return: Always 0.
- */
-
-int wildcmp(char *s1, char *s2)
-{
-	return (checker(s1, s2, 0, 0, -1));
-}
-
-/**
  * checkLast - check last char of s2 when s1 ends
  * @s: string
  * @i: int
  * Return: 0 or 1
  */
+
 int checkLast(char *s, int i)
 {
 	if (s[i] == '*')
@@ -29,6 +16,7 @@ int checkLast(char *s, int i)
 
 	return (0);
 }
+
 /**
  * checker - helper
  * @s1: string
@@ -38,6 +26,7 @@ int checkLast(char *s, int i)
  * @wildUsed: int
  * Return: Always 0.
  */
+
 int checker(char *s1, char *s2, int a, int b, int wildUsed)
 {
 
@@ -68,4 +57,18 @@ int checker(char *s1, char *s2, int a, int b, int wildUsed)
 		return (checkLast(s2, b));
 
 	return (1);
+}
+
+/**
+ * wildcmp - check the code for Holberton School students.
+ *
+ * @s1: string
+ *
+ * @s2: string
+ * Return: Always 0.
+ */
+
+int wildcmp(char *s1, char *s2)
+{
+	return (checker(s1, s2, 0, 0, -1));
 }
