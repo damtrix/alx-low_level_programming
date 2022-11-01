@@ -2,81 +2,66 @@
 #define MAXSIZE 1024
 
 /**
- * __exit - prints error messages and exits with exit number
- *
- * @error: either the exit number or file descriptor
- *
- * @str: name of either file_in or file_out
- *
- * @fd: file descriptor
- *
- * Return: 0 on success
+ * error_handler - handles errors for cp
+ * @exit_code: exit code
+ * @message: error message
+ * @type: data type for format
  */
 
-int __exit(int error, char *str, int fd)
+void error_handler(int exit_code, char *message, char type, ...)
 {
-	switch (error)
-	{
-	case 97:
-		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
-		exit(error);
-	case 98:
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", s);
-		exit(error);
-	case 99:
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", s);
-		exit(error);
-	case 100:
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
-		exit(error);
-	default:
-		return (0);
-	}
+	va_list args;
+
+	va_start(args, type);
+	if (type == 's')
+		dprintf(STDERR_FILENO, message, va_arg(args, char *));
+	else if (type == 'd')
+		dprintf(STDERR_FILENO, message, va_arg(args, int));
+	else if (type == 'N')
+		dprintf(STDERR_FILENO, message, "");
+	else
+		dprintf(STDERR_FILENO, "Error: Does not match any type\n");
+	va_end(args);
+	exit(exit_code);
 }
 
 /**
- * main - create a copy of file
- *
- * @argc: argument counter
- *
- * @argv: argument vector
- *
- * Return: 0 for success.
+ * main - copies the content of a file to another file
+ * @argc: number of arguments
+ * @argv: array of arguments
+ * Return:  0 (Always)
  */
 
 int main(int argc, char *argv[])
 {
-	int file_in, file_out;
-	int read_stat, write_stat;
-	int close_in, close_out;
-	char buffer[MAXSIZE];
+	char buffer[1024];
+	int fd_s, fd_d;
+	ssize_t bytes_read, bytes_written;
 
-/*if arguments are not 3*/
 	if (argc != 3)
-		__exit(97, NULL, 0);
-/*sets file descriptor for copy from file*/
-	file_in = open(argv[1], O_RDONLY);
-	if (file_in == -1)
-		__exit(98, argv[1], 0);
-/*sets file descriptor for copy to file*/
-	file_out = open(argv[2], O_CREAT | O_TRUNC | O_WRONLY, 06);
-	if (file_out == -1)
-		__exit(99, argv[2], 0);
-/*reads file_in as long as its not NULL*/
-	while ((read_stat = read(file_in, buffer, MAXSIZE)) != 0)
+		error_handler(97, "Usage: cp file_from file_to\n", 'N');
+
+	fd_s = open(argv[1], O_RDONLY);
+	if (fd_s == -1)
+		error_handler(98, "Error: Can't read from file %s\n", 's', argv[1]);
+
+	fd_d = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (fd_d == -1)
+		error_handler(99, "Error: Can't write to %s\n", 's', argv[2]);
+
+	while ((bytes_read = read(fd_s, buffer, 1024)) > 0)
 	{
-		if (read_stat == -1)
-			__exit(98, argv[1], 0);
-/*copy and write contents to file_out*/
-		write_stat = write(file_out, buffer, read_stat);
-		if (write_stat == -1)
-			__exit(99, argv[2], 0);
+		bytes_written = write(fd_d, buffer, bytes_read);
+		if (bytes_written == -1)
+			error_handler(99, "Error: Can't write to %s\n", 's', argv[2]);
 	}
-	close_in = close(file_in); /*close file_in*/
-	if (close_in == -1)
-		__exit(100, NULL, file_in);
-	close_out = close(file_out); /*close file_out*/
-	if (close_out == -1)
-		__exit(100, NULL, file_out);
+
+	if (bytes_read == -1)
+		error_handler(98, "Error: Can't read from file %s\n", 's', argv[1]);
+	if (close(fd_s) == -1)
+		error_handler(100, "Error: Can't close fd %d\n", 'd', fd_s);
+	if (close(fd_d) == -1)
+		error_handler(100, "Error: Can't close fd %d\n", 'd', fd_d);
+
 	return (0);
 }
